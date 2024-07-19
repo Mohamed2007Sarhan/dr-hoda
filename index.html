@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dr. Huda Elbendari's Website</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-image: url("images/welcome.jpg");
+        background-size: cover;
+        background-position: center;
+        overflow-x: hidden;
+      }
+
+      @media (max-width: 767px) {
+        body {
+          background-image: none;
+          background-color: #f0f0f0; 
+        }
+      }
+
+      header {
+        background-color: #4caf50;
+        color: white;
+        padding: 20px 0;
+        text-align: center;
+        font-size: 2em;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      #welcomeMessage {
+        font-size: 2em;
+        color: #333;
+        white-space: nowrap;
+        overflow: hidden;
+        border-right: 0.15em solid orange;
+        margin: 20px 0;
+        text-align: center;
+        width: 100%;
+        animation: typing 3.5s steps(40, end),
+          blink-caret 0.75s step-end infinite;
+      }
+      .content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+      }
+      .card {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin: 20px;
+        padding: 20px;
+        width: 100%;
+        max-width: 500px;
+        transform: translateY(100px);
+        opacity: 0;
+        animation: fadeInUp 1s forwards;
+      }
+      .card h2 {
+        margin-top: 0;
+        color: #4caf50;
+      }
+      @keyframes typing {
+        from {
+          width: 0;
+        }
+        to {
+          width: 100%;
+        }
+      }
+      @keyframes blink-caret {
+        from,
+        to {
+          border-color: transparent;
+        }
+        50% {
+          border-color: orange;
+        }
+      }
+      @keyframes fadeInUp {
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+      @media (min-width: 600px) {
+        .content {
+          flex-direction: row;
+          flex-wrap: wrap;
+          justify-content: space-around;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>Dr. Huda Elbendari's Website</header>
+    <div id="welcomeMessage"></div>
+
+    <div class="content">
+      <div class="card">
+        <h2>Personal Information</h2>
+        <p>Name: Huda Abdelazem Elbendari</p>
+        <p>
+          Position: Lecturer of Maternity, Obstetrics, and Gynecology Nursing at
+          Al-Azhar University
+        </p>
+        <p>Email: drhoda.sarhan@yahoo.com, Drhoda837@gmail.com</p>
+      </div>
+      <div class="card">
+        <h2>Experience</h2>
+        <p>2018-Present: Teaching at Al-Azhar Nursing Institute</p>
+        <p>
+          2016-2017: Teaching at Faculty of Nursing, Al-Azhar University
+          (Volunteer)
+        </p>
+        <p>
+          2014-2016: Teaching at Hours Academic for Nurses & Alarkan Academic
+          for Nurses
+        </p>
+        <p>
+          2012-2014: Head of Continuous Education Department at Al-Azhar
+          University
+        </p>
+      </div>
+      <div class="card">
+        <h2>Qualifications</h2>
+        <p>Doctorate in Obstetrics and Gynecological Nursing (2021)</p>
+        <p>Master in Obstetrics and Gynecological Nursing (2017)</p>
+        <p>English Conversational Skills (2019)</p>
+        <p>Training of Trainer (T.O.T) Diploma (2019)</p>
+      </div>
+      <div class="card">
+        <h2>Workshops and Training</h2>
+        <p>Plagiarism and Academic Writing Workshop (2019)</p>
+        <p>Medication Errors Workshop (2019)</p>
+        <p>APA Styles Referencing Workshop (2020)</p>
+        <p>Clinical Log Book Preparation for Nursing Students (2019)</p>
+      </div>
+    </div>
+
+    <script>
+      function getLanguageByCountry(countryCode) {
+        switch (countryCode) {
+          case "EG": // Egypt
+            return "ar";
+          case "DE": // Germany
+            return "de";
+          case "FR": // France
+            return "fr";
+          default:
+            return "en";
+        }
+      }
+
+      function getWelcomeMessage(language) {
+        switch (language) {
+          case "ar":
+            return "مرحبًا بك في موقع الدكتورة هدى البنداري";
+          case "de":
+            return "Willkommen auf der Website von Dr. Huda Elbendari";
+          case "fr":
+            return "Bienvenue sur le site de Dr. Huda Elbendari";
+          default:
+            return "Welcome to Dr. Huda Elbendari's Website";
+        }
+      }
+
+      function setWelcomeMessage() {
+        fetch("https://ipapi.co/json/")
+          .then((response) => response.json())
+          .then((data) => {
+            const countryCode = data.country_code;
+            const language = getLanguageByCountry(countryCode);
+            const welcomeMessage = getWelcomeMessage(language);
+            typeWriter(welcomeMessage);
+          })
+          .catch((error) => {
+            console.error("Error fetching the IP info:", error);
+            typeWriter(getWelcomeMessage("en"));
+          });
+      }
+
+      function typeWriter(text, i = 0) {
+        if (i < text.length) {
+          document.getElementById("welcomeMessage").innerHTML += text.charAt(i);
+          setTimeout(() => typeWriter(text, i + 1), 100);
+        } else {
+          // Wait 15 seconds and then redirect
+          setTimeout(() => {
+            window.location.href = "weat.html";
+          }, 3000);
+        }
+      }
+
+      window.onload = setWelcomeMessage;
+    </script>
+  </body>
+</html>
